@@ -66,6 +66,14 @@ function! revimses#clear_session() abort "{{{
 	quitall
 endfunction "}}}
 
+function! revimses#customlist(ArgLead, CmdLine, CursorPos) abort "{{{
+	let l:save_cd = getcwd()
+	exe "cd " . expand(g:revimses#myvimsessions_folder)
+	let l:filelist = split(glob("*"),"\n")
+	exe "cd " . expand(l:save_cd)
+	return l:filelist
+endfunction "}}}
+
 " TABMERGING " 複数タブのときの動作がだめ
 " function! revimses#tab_merge() abort "{{{
 "     if len(split(serverlist())) > 1
