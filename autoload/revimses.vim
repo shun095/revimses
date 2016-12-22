@@ -20,16 +20,18 @@ endfunction "}}}
 " LOADING SESSION
 function! revimses#load_session(session_name,notify_flag) abort "{{{
 	" let revimses#session_loaded = s:true
-	if  len(split(serverlist(),"\n")) <= 1
-		if filereadable(expand(g:revimses#myvimsessions_folder . '/' . a:session_name))
-			execute "source" g:revimses#myvimsessions_folder . "/" . a:session_name
-			if a:notify_flag == s:true
-				echom "Session file the name of '" . g:revimses#myvimsessions_folder . "/" . a:session_name . "' was loaded."
-			endif
-		else
-			if a:notify_flag == s:true
-				echom "No session file the name of '" . g:revimses#myvimsessions_folder . "/" . a:session_name . "'."
-			endif
+	let l:fullpath = expand(g:revimses#myvimsessions_folder . '/' . a:session_name)
+	if filereadable(expand(l:fullpath))
+		execute "source" l:fullpath
+		if a:notify_flag == s:true
+			echom "Session file the name of '" . l:fullpath . "' was loaded."
+		endif
+		if a:session_name == "default.vim"
+			call rename(l:fullpath, expand(g:revimses#myvimsessions_folder . '/' . '.current.vim'))
+		endif
+	else
+		if a:notify_flag == s:true
+			echom "No session file the name of '" . l:fullpath . "'."
 		endif
 	endif
 endfunction "}}}
@@ -40,6 +42,9 @@ function! revimses#save_session(session_name,notify_flag) abort "{{{
 	execute  "mksession! "  g:revimses#myvimsessions_folder . "/" . a:session_name
 	if a:notify_flag == s:true
 		echom "Session saved to '" . g:revimses#myvimsessions_folder . "/" . a:session_name . "'."
+	endif
+	if a:session_name == "default.vim"
+		call delete(expand(g:revimses#myvimsessions_folder . '/' . '.current.vim'))
 	endif
 endfunction "}}}
 
