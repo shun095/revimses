@@ -51,8 +51,8 @@ augroup END
 " command! TabMerge call revimses#tab_merge()
 command! SessionClearAndQuit call revimses#clear_session()
 command! SessionLoadLast call revimses#load_session("default.vim",s:true)
-command! SessionLoadSaved call revimses#load_session("savedsession.vim",s:true)
-command! SessionSave call revimses#save_session("savedsession.vim",s:true)
+command! -nargs=1 SessionLoadSaved call revimses#load_session(<q-args>,s:true)
+command! -nargs=1 SessionSave call revimses#save_session(<q-args>,s:true)
 command! SessionLoadClearedSession call revimses#load_session('.backup.vim',s:true)
 
 let &cpo = s:save_cpo
