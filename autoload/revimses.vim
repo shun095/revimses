@@ -26,7 +26,7 @@ function! revimses#load_session(session_name,notify_flag) abort "{{{
 		if a:notify_flag == s:true
 			echom "Session file the name of '" . l:fullpath . "' was loaded."
 		endif
-		if a:session_name == "default.vim"
+		if a:session_name == ".default.vim"
 			call rename(l:fullpath, expand(g:revimses#sessions_folder . '/' . '.current.vim'))
 		endif
 	else
@@ -43,8 +43,15 @@ function! revimses#save_session(session_name,notify_flag) abort "{{{
 	if a:notify_flag == s:true
 		echom "Session saved to '" . g:revimses#sessions_folder . "/" . a:session_name . "'."
 	endif
-	if a:session_name == "default.vim"
+	if a:session_name == ".default.vim"
 		call delete(expand(g:revimses#sessions_folder . '/' . '.current.vim'))
+	endif
+endfunction "}}}
+	
+function! revimses#delete_session(session_name,notify_flag) abort "{{{
+	let l:delete_flag = confirm("Delete session file? :" . a:session_name, "&Yes\n&No",2)
+	if l:delete_flag == 1
+		call delete(expand(g:revimses#sessions_folder . '/' . a:session_name))
 	endif
 endfunction "}}}
 
@@ -59,8 +66,8 @@ endfunction "}}}
 
 " SESSION CREAR
 function! revimses#clear_session() abort "{{{
-	call g:revimses#save_session("default.vim",s:false)
-	call rename(expand(g:revimses#sessions_folder) . '/default.vim',
+	call g:revimses#save_session(".default.vim",s:false)
+	call rename(expand(g:revimses#sessions_folder) . '/.default.vim',
 				\ expand(g:revimses#sessions_folder) . '/.backup.vim')
 	let g:revimses#save_session_flag = s:false
 	quitall
@@ -106,10 +113,10 @@ endfunction "}}}
 " 			"ほかにVimが起動していなければ
 " 			" if len(split(serverlist())) == 1 || serverlist() == ''
 " 			if serverlist() == ""
-" 				silent source expand("g:revimses#sessions_folder") .  "/default.vim"
+" 				silent source expand("g:revimses#sessions_folder") .  "/.default.vim"
 " 			endif
 " 			" デバッグ用
-" 			" source expand("g:revimses#sessions_folder"). /default.vim
+" 			" source expand("g:revimses#sessions_folder"). /.default.vim
 " 		endif
 " 	endif
 " endfunction "}}}

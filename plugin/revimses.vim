@@ -40,24 +40,26 @@ endif
 augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-    autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session("default.vim",s:false) | endif
+    autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
     autocmd VimLeavePre * call revimses#save_window(revimses#save_window_file)
-    autocmd VimLeavePre * if revimses#save_session_flag == s:true | call revimses#save_session("default.vim",s:true) | endif
+    autocmd VimLeavePre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
 
     " いつか実装したいTabマージ機構
     " autocmd VimEnter * nested if @% != '' || revimses#getbufbyte() != 0 | call revimses#tab_merge()
     " バックアップ用
-    " autocmd CursorHold * if revimses#save_session_flag == s:true | call revimses#save_session("default.vim",s:false) | endif
-    " autocmd CursorHoldI * if revimses#save_session_flag == s:true | call revimses#save_session("default.vim",s:false) | endif
+    " autocmd CursorHold * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:false) | endif
+    " autocmd CursorHoldI * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:false) | endif
 
 augroup END
 
+command! RevimsesClearAndQuit call revimses#clear_session()
+command! -nargs=1 -complete=customlist,revimses#customlist RevimsesLoadSaved call revimses#load_session(<q-args>,s:true)
+command! -nargs=1 -complete=customlist,revimses#customlist RevimsesDeleteSaved call revimses#delete_session(<q-args>,s:true)
+command! -nargs=1 RevimsesSave call revimses#save_session(<q-args>,s:true)
+
 " command! TabMerge call revimses#tab_merge()
-command! SessionClearAndQuit call revimses#clear_session()
-command! SessionLoadLast call revimses#load_session("default.vim",s:true)
-command! -nargs=1 -complete=customlist,revimses#customlist SessionLoadSaved call revimses#load_session(<q-args>,s:true)
-command! -nargs=1 SessionSave call revimses#save_session(<q-args>,s:true)
-command! SessionLoadClearedSession call revimses#load_session('.backup.vim',s:true)
+" command! RevimsesLoadLast call revimses#load_session(".default.vim",s:true)
+" command! RevimsesLoadClearedSession call revimses#load_session('.backup.vim',s:true)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
