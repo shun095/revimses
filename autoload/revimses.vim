@@ -20,14 +20,14 @@ endfunction "}}}
 " LOADING SESSION
 function! revimses#load_session(session_name,notify_flag) abort "{{{
 	" let revimses#session_loaded = s:true
-	let l:fullpath = expand(g:revimses#myvimsessions_folder . '/' . a:session_name)
+	let l:fullpath = expand(g:revimses#sessions_folder . '/' . a:session_name)
 	if filereadable(expand(l:fullpath))
 		execute "source" l:fullpath
 		if a:notify_flag == s:true
 			echom "Session file the name of '" . l:fullpath . "' was loaded."
 		endif
 		if a:session_name == "default.vim"
-			call rename(l:fullpath, expand(g:revimses#myvimsessions_folder . '/' . '.current.vim'))
+			call rename(l:fullpath, expand(g:revimses#sessions_folder . '/' . '.current.vim'))
 		endif
 	else
 		if a:notify_flag == s:true
@@ -39,12 +39,12 @@ endfunction "}}}
 " SAVING SESSION
 function! revimses#save_session(session_name,notify_flag) abort "{{{
 	" if g:revimses#session_loaded == s:true
-	execute  "mksession! "  g:revimses#myvimsessions_folder . "/" . a:session_name
+	execute  "mksession! "  g:revimses#sessions_folder . "/" . a:session_name
 	if a:notify_flag == s:true
-		echom "Session saved to '" . g:revimses#myvimsessions_folder . "/" . a:session_name . "'."
+		echom "Session saved to '" . g:revimses#sessions_folder . "/" . a:session_name . "'."
 	endif
 	if a:session_name == "default.vim"
-		call delete(expand(g:revimses#myvimsessions_folder . '/' . '.current.vim'))
+		call delete(expand(g:revimses#sessions_folder . '/' . '.current.vim'))
 	endif
 endfunction "}}}
 
@@ -60,15 +60,15 @@ endfunction "}}}
 " SESSION CREAR
 function! revimses#clear_session() abort "{{{
 	call g:revimses#save_session("default.vim",s:false)
-	call rename(expand(g:revimses#myvimsessions_folder) . '/default.vim',
-				\ expand(g:revimses#myvimsessions_folder) . '/.backup.vim')
+	call rename(expand(g:revimses#sessions_folder) . '/default.vim',
+				\ expand(g:revimses#sessions_folder) . '/.backup.vim')
 	let g:revimses#save_session_flag = s:false
 	quitall
 endfunction "}}}
 
 function! revimses#customlist(ArgLead, CmdLine, CursorPos) abort "{{{
 	let l:save_cd = getcwd()
-	exe "cd " . expand(g:revimses#myvimsessions_folder)
+	exe "cd " . expand(g:revimses#sessions_folder)
 	let l:filelist = split(glob("*"),"\n")
 	exe "cd " . expand(l:save_cd)
 	return l:filelist
@@ -106,10 +106,10 @@ endfunction "}}}
 " 			"ほかにVimが起動していなければ
 " 			" if len(split(serverlist())) == 1 || serverlist() == ''
 " 			if serverlist() == ""
-" 				silent source expand("g:revimses#myvimsessions_folder") .  "/default.vim"
+" 				silent source expand("g:revimses#sessions_folder") .  "/default.vim"
 " 			endif
 " 			" デバッグ用
-" 			" source expand("g:revimses#myvimsessions_folder"). /default.vim
+" 			" source expand("g:revimses#sessions_folder"). /default.vim
 " 		endif
 " 	endif
 " endfunction "}}}

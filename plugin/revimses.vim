@@ -16,15 +16,19 @@ let s:false = 0
 " let revimses#session_loaded = s:false
 " let revimses#session_loaded = s:true
 
-if !exists("revimses#myvimsessions_folder")
-    let revimses#myvimsessions_folder = "~/.vimsessions"
+if !exists("revimses#sessions_folder")
+    let revimses#sessions_folder = "~/.vimsessions"
+endif
+
+if &sessionoptions == "blank,buffers,curdir,folds,help,options,tabpages,winsize"
+	set sessionoptions=folds,help,tabpages
 endif
 
 let revimses#save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
-let revimses#save_window_file = expand(revimses#myvimsessions_folder) . '/.vimwinpos'
+let revimses#save_window_file = expand(revimses#sessions_folder) . '/.vimwinpos'
 
-if isdirectory(expand(revimses#myvimsessions_folder)) != 1
-    call mkdir(expand(revimses#myvimsessions_folder),"p")
+if isdirectory(expand(revimses#sessions_folder)) != s:true
+    call mkdir(expand(revimses#sessions_folder),"p")
 endif
 
 if has("gui_running")
