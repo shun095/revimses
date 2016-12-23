@@ -52,6 +52,7 @@ function! revimses#delete_session(session_name,notify_flag) abort "{{{
 	let l:delete_flag = confirm("Delete session file? :" . a:session_name, "&Yes\n&No",2)
 	if l:delete_flag == 1
 		call delete(expand(g:revimses#sessions_folder . '/' . a:session_name))
+		echom "Session file the name of '" . expand(g:revimses#sessions_folder . '/' . a:session_name) . "' was deleted."
 	endif
 endfunction "}}}
 
