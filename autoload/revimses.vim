@@ -58,9 +58,17 @@ endfunction "}}}
 
 " SAVING WINDOW POSITION
 function! revimses#save_window(save_window_file) abort "{{{
+	let l:window_maximaize = ''
+	if has('win32')
+		if libcallnr('User32.dll', 'IsZoomed', v:windowid)
+			let l:window_maximaize = 'au GUIEnter * simalt ~x'
+		endif
+	endif
 	let options = [
-				\ 'winsize ' . &columns . ' ' . &lines,
+				\ 'set lines=' . &lines,
+				\ 'set columns=' . &columns,
 				\ 'winpos ' . getwinposx() . ' ' . getwinposy(),
+				\ l:window_maximaize
 				\ ]
 	call writefile(options, a:save_window_file)
 endfunction "}}}
