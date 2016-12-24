@@ -1,0 +1,32 @@
+*revimses.txt*	Plugin to restore last session.
+
+Version: 0.1
+Author : ishitaku5522 <ishitaku5522@gmail.com>
+GitHub : https://github.com/ishitaku5522/revimses
+==============================================================================
+CONTENTS					*revimses* *revimses-contents*
+
+Introduction				    |revimses-introduction|
+Commands				    |revimses-commands|
+Variables				    |revimses-variables|
+Functions				    |revimses-functions|
+Configuration Example			    |revimses-example|
+Bug					    |revimses-bug|
+Todo					    |revimses-todo|
+Changelog				    |revimses-changelog|
+
+==============================================================================
+INTRODUCTION					*revimses-introduction*
+
+Restore last session automatically.
+
+==============================================================================
+COMMANDS					*revimses-commands*
+
+*:RevimsesClearAndQuit*
+	Clear current session data and quit not to restore when next time vim launched
+
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:
