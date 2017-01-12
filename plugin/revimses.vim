@@ -54,13 +54,11 @@ augroup MYSESSIONVIM
 augroup END
 
 command! RevimsesClearAndQuit call revimses#clear_session()
-command! -nargs=1 -complete=customlist,revimses#customlist RevimsesLoadSaved call revimses#load_session(<q-args>,s:true)
-command! -nargs=1 -complete=customlist,revimses#customlist RevimsesDeleteSaved call revimses#delete_session(<q-args>,s:true)
+command! -nargs=1 -complete=customlist,revimses#customlist
+			\ RevimsesLoadSaved call revimses#load_session(<q-args>,s:true)
+command! -nargs=1 -complete=customlist,revimses#customlist
+			\ RevimsesDeleteSaved call revimses#delete_session(<q-args>,s:true)
 command! -nargs=1 RevimsesSave call revimses#save_session(<q-args>,s:true)
-
-" command! TabMerge call revimses#tab_merge()
-" command! RevimsesLoadLast call revimses#load_session(".default.vim",s:true)
-" command! RevimsesLoadClearedSession call revimses#load_session('.backup.vim',s:true)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
