@@ -1,10 +1,9 @@
-" vim:set foldmethod=marker:
 scriptencoding utf-8
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-if exists("g:loaded_mysession_plugin")
+if exists('g:loaded_mysession_plugin')
     finish
 endif
 let g:loaded_mysession_plugin = 1
@@ -12,16 +11,12 @@ let g:loaded_mysession_plugin = 1
 let s:true = 1
 let s:false = 0
 
-" Init
-" let revimses#session_loaded = s:false
-" let revimses#session_loaded = s:true
-
 " Option Vals
-if !exists("revimses#sessions_folder")
-    let revimses#sessions_folder = "~/.vimsessions"
+if !exists('revimses#session_dir')
+    let revimses#session_dir = '~/.vimsessions'
 endif
 
-if !exists("revimses#sessionoptions")
+if !exists('revimses#sessionoptions')
 	let revimses#sessionoptions = 'folds,help,tabpages'
 endif
 
@@ -30,17 +25,23 @@ endif
 " 	let revimses#sessionoptions = 'folds,help,tabpages'
 " endif
 " 
+let s:user_ses_dir = fnamemodify(expand(revimses#session_dir), 'p')
+let s:autosave_ses_dir = s:user_ses_dir . '/.autosave'
 
 let revimses#save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
-let revimses#save_window_file = expand(revimses#sessions_folder) . '/.vimwinpos'
+let revimses#save_window_file = s:user_ses_dir . '/.vimwinpos'
 
-if !isdirectory(expand(revimses#sessions_folder))
-    call mkdir(expand(revimses#sessions_folder),"p")
+if !isdirectory(s:user_ses_dir)
+    call mkdir(s:user_ses_dir,'p')
 endif
 
-if has("gui_running")
+if !isdirectory(s:autosave_ses_dir)
+    call mkdir(s:autosave_ses_dir ,'p')
+endif
+
+if has('gui_running')
     if filereadable(expand(revimses#save_window_file))
-        execute "source" revimses#save_window_file
+        execute 'source' revimses#save_window_file
     endif
 endif
 
@@ -50,13 +51,6 @@ augroup MYSESSIONVIM
     autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
     autocmd VimLeavePre * call revimses#save_window(revimses#save_window_file)
     autocmd VimLeavePre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
-
-    " いつか実装したいTabマージ機構
-    " autocmd VimEnter * nested if @% != '' || revimses#getbufbyte() != 0 | call revimses#tab_merge()
-    " バックアップ用
-    " autocmd CursorHold * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:false) | endif
-    " autocmd CursorHoldI * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:false) | endif
-
 augroup END
 
 command! RevimsesClearAndQuit call revimses#clear_session()
