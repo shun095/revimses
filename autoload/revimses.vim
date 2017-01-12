@@ -39,13 +39,21 @@ endfunction "}}}
 " SAVING SESSION
 function! revimses#save_session(session_name,notify_flag) abort "{{{
 	" if g:revimses#session_loaded == s:true
-	execute  "mksession! "  g:revimses#sessions_folder . "/" . a:session_name
-	if a:notify_flag == s:true
-		echom "Session saved to '" . g:revimses#sessions_folder . "/" . a:session_name . "'."
-	endif
-	if a:session_name == ".default.vim"
-		call delete(expand(g:revimses#sessions_folder . '/' . '.current.vim'))
-	endif
+	let l:saved_sessionopts = &sessionoptions
+	let &sessionoptions = g:revimses#sessionoptions
+	try
+		execute  "mksession! "  g:revimses#sessions_folder . "/" . a:session_name
+		if a:notify_flag == s:true
+			echom "Session saved to '" . g:revimses#sessions_folder . "/" . a:session_name . "'."
+		endif
+		if a:session_name == ".default.vim"
+			call delete(expand(g:revimses#sessions_folder . '/' . '.current.vim'))
+		endif
+	catch
+		echoerr v:exception
+	finally
+		let &sessionoptions = l:saved_sessionopts
+	endtry
 endfunction "}}}
 	
 function! revimses#delete_session(session_name,notify_flag) abort "{{{
@@ -85,7 +93,7 @@ endfunction "}}}
 function! revimses#customlist(ArgLead, CmdLine, CursorPos) abort "{{{
 	let l:save_cd = getcwd()
 	exe "cd " . expand(g:revimses#sessions_folder)
-	let l:filelist = split(glob("*"),"\n")
+	let l:filelist = glob(a:ArgLead . "*",1,1)
 	exe "cd " . expand(l:save_cd)
 	return l:filelist
 endfunction "}}}

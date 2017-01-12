@@ -16,18 +16,25 @@ let s:false = 0
 " let revimses#session_loaded = s:false
 " let revimses#session_loaded = s:true
 
+" Option Vals
 if !exists("revimses#sessions_folder")
     let revimses#sessions_folder = "~/.vimsessions"
 endif
 
-if &sessionoptions == "blank,buffers,curdir,folds,help,options,tabpages,winsize"
-	set sessionoptions=folds,help,tabpages
+if !exists("revimses#sessionoptions")
+	let revimses#sessionoptions = 'folds,help,tabpages'
 endif
+
+" saved_sessionoptsを決めなかった場合の挙動をどうしよう
+" if &sessionoptions == "blank,buffers,curdir,folds,help,options,tabpages,winsize"
+" 	let revimses#sessionoptions = 'folds,help,tabpages'
+" endif
+" 
 
 let revimses#save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
 let revimses#save_window_file = expand(revimses#sessions_folder) . '/.vimwinpos'
 
-if isdirectory(expand(revimses#sessions_folder)) != s:true
+if !isdirectory(expand(revimses#sessions_folder))
     call mkdir(expand(revimses#sessions_folder),"p")
 endif
 
