@@ -39,11 +39,11 @@ if !isdirectory(s:autosave_ses_dir)
     call mkdir(s:autosave_ses_dir ,'p')
 endif
 
-if has('gui_running')
-    if filereadable(expand(revimses#save_window_file))
-        execute 'source' revimses#save_window_file
-    endif
-endif
+" if has('gui_running')
+    " if filereadable(expand(revimses#save_window_file))
+        " execute 'source' revimses#save_window_file
+    " endif
+" endif
 
 augroup MYSESSIONVIM
     autocmd!
