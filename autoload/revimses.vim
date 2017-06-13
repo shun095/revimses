@@ -63,24 +63,26 @@ function! revimses#delete_session(session_name,notify_flag) abort
 endfunction
 
 function! revimses#save_window(save_window_file) abort
-  let l:saved_sessionopts = &sessionoptions
-  set sessionoptions=winpos,winsize,resize
-  let session_dir = fnamemodify(expand(g:revimses#session_dir),'p')
-  execute 'mksession! ' session_dir . '/' . a:save_window_file
-	" let l:window_maximaize = ''
-	" if has('win32')
-		" if libcallnr('User32.dll', 'IsZoomed', v:windowid)
-			" let l:window_maximaize = 'au GUIEnter * simalt ~x'
-		" endif
-	" endif
-	" let options = [
-				" \ 'set lines=' . &lines,
-				" \ 'set columns=' . &columns,
-				" \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
-				" \ l:window_maximaize
-				" \ ]
-	" call writefile(options, a:save_window_file)
-  let &sessionoptions = l:saved_sessionopts
+  " let l:saved_sessionopts = &sessionoptions
+  " set sessionoptions=winpos,winsize,resize
+  " " let session_dir = fnamemodify(expand(g:revimses#session_dir),'p')
+  " let window_file = fnamemodify(expand(a:save_window_file),'p')
+  " " execute 'mksession! ' session_dir . '/' . a:save_window_file
+  " execute 'mksession! ' .  window_file
+    let l:window_maximaize = ''
+    if has('win32')
+        if libcallnr('User32.dll', 'IsZoomed', v:windowid)
+            let l:window_maximaize = 'au GUIEnter * simalt ~x'
+        endif
+    endif
+    let options = [
+                \ 'set lines=' . &lines,
+                \ 'set columns=' . &columns,
+                \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
+                \ l:window_maximaize
+                \ ]
+    call writefile(options, a:save_window_file)
+  " let &sessionoptions = l:saved_sessionopts
 endfunction
 
 function! revimses#clear_session() abort
