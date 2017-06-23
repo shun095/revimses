@@ -4,7 +4,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if exists('g:loaded_mysession_plugin')
-    finish
+  finish
 endif
 let g:loaded_mysession_plugin = 1
 
@@ -13,11 +13,11 @@ let s:false = 0
 
 " Option Vals
 if !exists('revimses#session_dir')
-    let revimses#session_dir = '~/.vimsessions'
+  let revimses#session_dir = '~/.vimsessions'
 endif
 
 if !exists('revimses#sessionoptions')
-	let revimses#sessionoptions = 'folds,help,tabpages'
+  let revimses#sessionoptions = 'folds,help,tabpages'
 endif
 
 " saved_sessionoptsを決めなかった場合の挙動をどうしよう
@@ -32,33 +32,33 @@ let revimses#save_session_flag = s:true " TabMerge, ClearSession時用のフラ�
 let revimses#save_window_file = s:user_ses_dir . '/.vimwinpos'
 
 if !isdirectory(s:user_ses_dir)
-    call mkdir(s:user_ses_dir,'p')
+  call mkdir(s:user_ses_dir,'p')
 endif
 
 if !isdirectory(s:autosave_ses_dir)
-    call mkdir(s:autosave_ses_dir ,'p')
+  call mkdir(s:autosave_ses_dir ,'p')
 endif
 
-" if has('gui_running')
-    " if filereadable(expand(revimses#save_window_file))
-        " execute 'source' revimses#save_window_file
-    " endif
-" endif
+if has('gui_running')
+  if filereadable(expand(revimses#save_window_file))
+    execute 'source' revimses#save_window_file
+  endif
+endif
 
 augroup MYSESSIONVIM
-    autocmd!
-    " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-    autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
-    autocmd VimLeavePre * call revimses#save_window(revimses#save_window_file)
-    autocmd VimLeavePre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
+  autocmd!
+  " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
+  autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
+  autocmd QuitPre * call revimses#save_window(revimses#save_window_file)
+  autocmd QuitPre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
 augroup END
 
 
 command! RevimsesClearAndQuit call revimses#clear_session()
 command! -nargs=1 -complete=customlist,revimses#customlist
-			\ RevimsesLoadSaved call revimses#load_session(<q-args>,s:true)
+      \ RevimsesLoadSaved call revimses#load_session(<q-args>,s:true)
 command! -nargs=1 -complete=customlist,revimses#customlist
-			\ RevimsesDeleteSaved call revimses#delete_session(<q-args>,s:true)
+      \ RevimsesDeleteSaved call revimses#delete_session(<q-args>,s:true)
 command! -nargs=1 RevimsesSave call revimses#save_session(<q-args>,s:true)
 
 if has('job')
