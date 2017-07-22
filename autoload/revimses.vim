@@ -55,7 +55,7 @@ function! revimses#save_session(session_name,notify_flag) abort
 endfunction
 
 function! revimses#delete_session(session_name,notify_flag) abort
-  let l:delete_flag = confirm('Delete session file? :' . a:session_name, "&Yes\n&No",2)
+  let l:delete_flag = confirm('Really delete session file? :' . a:session_name, "&Yes\n&No",2)
   if l:delete_flag == 1
     call delete(expand(g:revimses#session_dir . '/' . a:session_name))
     echom "Session-file: '" . expand(g:revimses#session_dir . '/' . a:session_name) . "' was deleted."

@@ -3,10 +3,10 @@ scriptencoding utf-8
 let s:save_cpo = &cpo
 set cpo&vim
 
-if exists('g:loaded_mysession_plugin')
+if exists('g:loaded_revimses')
   finish
 endif
-let g:loaded_mysession_plugin = 1
+let g:loaded_revimses = 1
 
 let s:true = 1
 let s:false = 0
@@ -45,7 +45,7 @@ if has('gui_running')
   endif
 endif
 
-augroup MYSESSIONVIM
+augroup Revimses
   autocmd!
   " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
   autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
@@ -64,7 +64,7 @@ command! -nargs=1 RevimsesSave call revimses#save_session(<q-args>,s:true)
 if has('job')
   fun! revimses#timer_callback(timer) abort
     " code
-    call revimses#save_session(".current_bak.vim",s:true)
+    call revimses#save_session('.current_bak.vim',s:true)
   endf
 
   call timer_start(300000, 'revimses#timer_callback', {'repeat' : -1})
