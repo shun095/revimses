@@ -17,14 +17,10 @@ if !exists('revimses#session_dir')
 endif
 
 if !exists('revimses#sessionoptions')
-  let revimses#sessionoptions = 'folds,help,tabpages'
+  " let revimses#sessionoptions = 'folds,help,tabpages'
+  let revimses#sessionoptions = 'buffers,curdir,help,tabpages,winsize,slash,winpos,resize'
 endif
 
-" saved_sessionoptsを決めなかった場合の挙動をどうしよう
-" if &sessionoptions == "blank,buffers,curdir,folds,help,options,tabpages,winsize"
-" 	let revimses#sessionoptions = 'folds,help,tabpages'
-" endif
-" 
 let s:user_ses_dir = fnamemodify(expand(revimses#session_dir), 'p')
 let s:autosave_ses_dir = s:user_ses_dir . '/.autosave'
 
@@ -67,7 +63,7 @@ if has('job')
     call revimses#save_session('.current_bak.vim',s:true)
   endf
 
-  call timer_start(300000, 'revimses#timer_callback', {'repeat' : -1})
+  call timer_start(5 * 60 * 1000, 'revimses#timer_callback', {'repeat' : -1})
 endif
 
 let &cpo = s:save_cpo
