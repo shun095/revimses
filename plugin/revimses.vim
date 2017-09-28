@@ -39,15 +39,10 @@ if !isdirectory(s:autosave_ses_dir)
   call mkdir(s:autosave_ses_dir ,'p')
 endif
 
-if has('gui_running')
-  if filereadable(expand(revimses#save_window_file))
-    execute 'source' revimses#save_window_file
-  endif
-endif
-
 augroup Revimses
   autocmd!
   " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
+  autocmd GUIEnter * call revimses#load_window()
   autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
   autocmd QuitPre * call revimses#save_window(revimses#save_window_file)
   autocmd QuitPre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif

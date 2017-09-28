@@ -16,6 +16,14 @@ function! revimses#getbufbyte() abort
   endif
 endfunction
 
+function! revimses#load_window() abort
+  if has('gui_running')
+    if filereadable(expand(revimses#save_window_file))
+      execute 'source' revimses#save_window_file
+    endif
+  endif
+endfunction
+
 function! revimses#load_session(session_name,notify_flag) abort
   " let revimses#session_loaded = s:true
   let l:fullpath = fnamemodify(expand(g:revimses#session_dir),'p') . '/' . a:session_name
