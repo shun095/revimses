@@ -18,7 +18,7 @@ endif
 
 if !exists('revimses#sessionoptions')
   " let revimses#sessionoptions = 'folds,help,tabpages'
-  let revimses#sessionoptions = 'buffers,curdir,help,tabpages,winsize,slash,winpos,resize'
+  let revimses#sessionoptions = 'buffers,curdir,help,tabpages,winsize,slash'
 endif
 
 let s:user_ses_dir = fnamemodify(expand(revimses#session_dir), 'p')
