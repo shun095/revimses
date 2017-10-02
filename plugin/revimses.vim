@@ -38,7 +38,7 @@ endif
 augroup Revimses
   autocmd!
   " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-  autocmd GUIEnter * call revimses#load_window()
+  autocmd GUIEnter * call revimses#load_window(revimses#save_window_file)
   autocmd VimEnter * nested if @% == '' && revimses#getbufbyte() == 0 | call revimses#load_session(".default.vim",s:false) | endif
   autocmd QuitPre * call revimses#save_window(revimses#save_window_file)
   autocmd QuitPre * if revimses#save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif

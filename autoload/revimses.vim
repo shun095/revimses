@@ -16,10 +16,10 @@ function! revimses#getbufbyte() abort
   endif
 endfunction
 
-function! revimses#load_window() abort
+function! revimses#load_window(window_file) abort
   if has('gui_running')
-    if filereadable(expand(revimses#save_window_file))
-      execute 'source' revimses#save_window_file
+    if filereadable(expand(a:window_file))
+      execute 'source' a:window_file
     endif
   endif
 endfunction
