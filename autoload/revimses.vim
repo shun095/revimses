@@ -46,6 +46,7 @@ function! revimses#save_session(session_name,notify_flag) abort
   let session_dir = s:fullpath_sessiondir()
   try
     execute  'mksession! '  session_dir . '/' . a:session_name
+    call setfperm(session_dir . '/' . a:session_name, 'rw-rw-rw-')
     if a:notify_flag == s:true
       echom "Session saved to '" . session_dir . '/' . a:session_name . "'."
     endif
