@@ -30,7 +30,7 @@ function! revimses#load_session(session_name,notify_flag) abort
   " let revimses#session_loaded = s:true
   let l:fullpath = s:fullpath_sessiondir() . '/' . a:session_name
   if filereadable(l:fullpath)
-    execute 'source' l:fullpath
+    silent execute 'source' l:fullpath
     if a:notify_flag == s:true
       echom "Session-file: '" . l:fullpath . "' was loaded."
     endif
