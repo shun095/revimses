@@ -90,6 +90,7 @@ function! revimses#save_window(save_window_file) abort
         \ l:window_maximaize
         \ ]
   call writefile(options, a:save_window_file)
+  call setfperm(a:save_window_file, 'rw-rw-rw-')
 endfunction
 
 function! revimses#clear_session() abort
