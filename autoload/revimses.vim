@@ -21,10 +21,10 @@ endfunction
 function! revimses#restore_on_startup() abort
   let l:fullpath = s:fullpath_sessiondir() . '/.default.vim'
   if filereadable(l:fullpath)
-    let l:restore = confirm('Restore last session?',"&Yes\n&No")
-    if l:restore == 2
-      return
-    endif
+    " let l:restore = confirm('Restore last session?',"&Yes\n&No")
+    " if l:restore == 2
+    "   return
+    " endif
     call revimses#load_session(".default.vim",s:false)
   endif
 endfunction
