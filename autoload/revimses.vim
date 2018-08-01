@@ -19,11 +19,14 @@ function! revimses#load_window(window_file) abort
 endfunction
 
 function! revimses#restore_on_startup() abort
-  let l:restore = confirm('Restore last session?',"&Yes\n&No")
-  if l:restore == 2
-    return
+  let l:fullpath = s:fullpath_sessiondir() . '/.default.vim'
+  if filereadable(l:fullpath)
+    let l:restore = confirm('Restore last session?',"&Yes\n&No")
+    if l:restore == 2
+      return
+    endif
+    call revimses#load_session(".default.vim",s:false)
   endif
-  call revimses#load_session(".default.vim",s:false)
 endfunction
 
 function! revimses#load_session(session_name,notify_flag) abort
