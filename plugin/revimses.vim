@@ -32,15 +32,16 @@ endif
 
 augroup Revimses
   autocmd!
-  autocmd GUIEnter * call revimses#load_window(revimses#_win_file)
+  " autocmd GUIEnter * call revimses#load_window(revimses#_win_file)
   " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-  autocmd VimEnter * nested if argc() == 0 && bufnr('$') == 1 | call revimses#restore_on_startup() | endif
+  " autocmd VimEnter * nested if argc() == 0 && bufnr('$') == 1 | call revimses#restore_on_startup() | endif
   autocmd VimLeavePre * call revimses#save_window(revimses#_win_file)
   autocmd VimLeavePre * if !(argc() == 0 && bufnr('$') == 1) && g:revimses#_save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
 augroup END
 
 
 command! RevimsesClearAndQuit call revimses#clear_session()
+command! RevimsesLoadDefault call revimses#load_session('.default.vim',s:true)
 command! -nargs=1 -complete=customlist,revimses#customlist
       \ RevimsesLoad call revimses#load_session(<q-args>,s:true)
 command! -nargs=1 -complete=customlist,revimses#customlist
