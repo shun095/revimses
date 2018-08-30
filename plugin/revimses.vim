@@ -42,6 +42,7 @@ augroup END
 
 command! RevimsesClearAndQuit call revimses#clear_session()
 command! RevimsesLoadDefault call revimses#load_session('.default.vim',s:true)
+command! Revimses call revimses#load_session('.default.vim',s:true)
 command! -nargs=1 -complete=customlist,revimses#customlist
       \ RevimsesLoad call revimses#load_session(<q-args>,s:true)
 command! -nargs=1 -complete=customlist,revimses#customlist
