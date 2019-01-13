@@ -50,9 +50,8 @@ command! -nargs=1 -complete=customlist,revimses#customlist
 command! -nargs=1 RevimsesSave call revimses#save_session(<q-args>,s:true)
 
 
-if has('job')
+if has('job') || has('nvim')
   fun! revimses#timer_callback(timer) abort
-    " code
     call revimses#save_session('.swap.vim',s:false)
   endf
 
