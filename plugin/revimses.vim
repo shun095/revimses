@@ -36,7 +36,7 @@ augroup Revimses
   " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
   " autocmd VimEnter * nested if argc() == 0 && bufnr('$') == 1 | call revimses#restore_on_startup() | endif
   autocmd VimLeavePre * call revimses#save_window(revimses#_win_file)
-  autocmd VimLeavePre * if !(argc() == 0 && bufnr('$') == 1) && g:revimses#_save_session_flag == s:true | call revimses#save_session(".default.vim",s:true) | endif
+  autocmd VimLeavePre * if revimses#check_savable() | call revimses#save_session(".default.vim",s:true) | endif
 augroup END
 
 

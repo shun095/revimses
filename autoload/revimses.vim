@@ -112,5 +112,25 @@ function! revimses#customlist(ArgLead, CmdLine, CursorPos) abort
   return l:filelist
 endfunction
 
+function! revimses#check_restoreable() abort
+  if argc() == 0 && tabpagenr('$') == 1 && winnr('$') == 1 && bufname('%') ==# ''
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
+function! revimses#check_savable() abort
+  if tabpagenr('$') == 1 && winnr('$') == 1 && bufname('%') ==# ''
+    return 0
+  endif
+
+  if g:revimses#_save_session_flag
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
