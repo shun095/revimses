@@ -86,18 +86,23 @@ function! revimses#delete_session(session_name,notify_flag) abort
 endfunction
 
 function! revimses#save_window(save_window_file) abort
-  let l:window_maximaize = ''
-  if has('win32')
-    if libcallnr('User32.dll', 'IsZoomed', v:windowid)
-      let l:window_maximaize = 'au GUIEnter * simalt ~x'
-    endif
-  endif
   let options = [
         \ 'set lines=' . &lines,
         \ 'set columns=' . &columns,
         \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
-        \ l:window_maximaize
         \ ]
+
+  if has('win32') && libcallnr('User32.dll', 'IsZoomed', v:windowid)
+    let window_maximaize = [
+          \ 'if has("vim_starting")',
+          \ '  au GUIEnter * simalt ~x',
+          \ 'else',
+          \ '  simalt ~x',
+          \ 'endif',
+          \ ]
+    call extend(options, window_maximaize)
+  endif
+
   call writefile(options, a:save_window_file)
   call setfperm(a:save_window_file, 'rw-rw-rw-')
 endfunction
