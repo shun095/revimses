@@ -29,15 +29,21 @@ function! revimses#restore_on_startup() abort
   endif
 endfunction
 
-function! revimses#load_session(session_name,notify_flag) abort
+function! revimses#load_session(session_name, notify_flag) abort
+  if a:session_name ==# ''
+    let l:session_name = '.default.vim'
+  else
+    let l:session_name = a:session_name
+  endif
+
   " let revimses#session_loaded = s:true
-  let l:fullpath = s:fullpath_sessiondir() . '/' . a:session_name
+  let l:fullpath = s:fullpath_sessiondir() . '/' . l:session_name
   if filereadable(l:fullpath)
     silent execute 'source' l:fullpath
     if a:notify_flag == s:true
       echom "Session-file: '" . l:fullpath . "' was loaded."
     endif
-    if a:session_name ==# '.default.vim'
+    if l:session_name ==# '.default.vim'
       call rename(l:fullpath, s:fullpath_sessiondir() . '/.swap.vim')
     endif
   else
